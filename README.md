@@ -42,6 +42,16 @@ Otherwise meeting will end on the original timing.
 The meeting can be extended atmost 2 times with duration of 5 Minutes each.
 
 To prevent missing important part , a transcription service is provided.
+
+A start button is present on the host panel.
+
+If the host click on that button , a notification appears on remote users to pay attention as reminder for important topic.
+
+Moreover a speech Recognition is started which trasncripts the user voice to text until the stop button is pressed on the admin panel.
+
+After completetion the transcrbed text is made available on the important section for all users.
+
+This feature helps preventing extension of meeting because of the users that do not pay attention to meeting.
 ## Deployment
 
 To run this project locally
