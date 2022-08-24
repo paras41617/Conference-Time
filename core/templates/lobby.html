@@ -1,0 +1,210 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <div id="alerts">
+    </div>
+    <div id="create_form">
+        <div id='header'>
+            <div id='heading'>
+                Conference Time
+            </div>
+            <div id='button_join'>
+                <button id="to_join" type="text" class="button-27">Join</button>
+            </div>
+        </div>
+        <div id="timing_form">
+            <div class="container">
+
+                <h2>Select Meeting Duration</h2>
+
+                <ul>
+                    <li>
+                        <input value="900" type="radio" id="f-option" name="selector" checked>
+                        <label for="f-option">15 Minutes</label>
+
+                        <div class="check"></div>
+                    </li>
+
+                    <li>
+                        <input value="1800" type="radio" id="s-option" name="selector">
+                        <label for="s-option">30 Minutes</label>
+
+                        <div class="check">
+                            <div class="inside"></div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <input value="2700" type="radio" id="t-option" name="selector">
+                        <label for="t-option">45 Minutes</label>
+
+                        <div class="check">
+                            <div class="inside"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div id="options_submit">
+                <button class="button-28" id="show_credentials">Create</button>
+            </div>
+        </div>
+        <div>
+            <div id="form_one_create">
+                <div class="form">
+                    <div class="title">Welcome</div>
+                    <div class="subtitle">Create a Meeting</div>
+                    <div class="input-container ic1">
+                        <input id="meeting_name" class="input" name="meeting_name" type="text" placeholder=" " />
+                        <div class="cut"></div>
+                        <label for="firstname" class="placeholder">Meeting Name</label>
+                    </div>
+                    <div class="input-container ic1">
+                        <input id="name" class="input" name="name" type="text" placeholder=" " />
+                        <div class="cut"></div>
+                        <label for="firstname" class="placeholder">Join in as</label>
+                    </div>
+                    <button id="show_host" type="text" class="submit">Continue</button>
+                </div>
+            </div>
+        </div>
+        <div id="form_two_create">
+            <div class="form_2">
+                <div class="title">Credentials</div>
+                <div class="subtitle">Share with Others</div>
+                <div class="input-container ic1">
+                    <input value="" id="joining_code" class="input" name="meeting_name" type="text" disabled />
+                    <div class="cut"></div>
+                    <label for="meeting_name" class="placeholder">Joining Code</label>
+                </div>
+                <button id="start" type="text" class="submit">Start (as host)</button>
+            </div>
+        </div>
+    </div>
+    <div id="join_form">
+        <div id='header'>
+            <div id='heading'>
+                Conference Time
+            </div>
+            <div id='button_join'>
+                <button id="to_create" type="text" class="button-27">Create</button>
+            </div>
+        </div>
+        <div>
+            <div id="form_one_join">
+                <div class="form_2">
+                    <div class="title">Welcome</div>
+                    <div class="subtitle">Join a Meeting</div>
+                    <div class="input-container ic1">
+                        <input id="password" class="input" name="meeting_name" type="text" placeholder=" " />
+                        <div class="cut"></div>
+                        <label for="firstname" class="placeholder">Password</label>
+                    </div>
+                    <div class="input-container ic1">
+                        <input id="join_name" class="input" name="name" type="text" placeholder=" " />
+                        <div class="cut"></div>
+                        <label for="firstname" class="placeholder">Join in as</label>
+                    </div>
+                    <button id="join" type="text" class="submit">Join</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+
+    let handleSubmit = () => {
+        sessionStorage.setItem("is_host", true)
+        let room = document.getElementById('meeting_name').value;
+        let name = document.getElementById('name').value;
+        sessionStorage.setItem('room', room)
+        sessionStorage.setItem('name', name)
+        document.getElementById('form_one_create').style.display = "none";
+        document.getElementById('timing_form').style.display = "block";
+    }
+
+    let start_meeting = async () => {
+        let channel = sessionStorage.getItem('code')
+        let response = await fetch(`/get_token/?channel=${channel}`)
+        let data = await response.json()
+
+        let UID = data.uid
+        let token = data.token
+
+        sessionStorage.setItem('UID', UID)
+        sessionStorage.setItem('token', token)
+        sessionStorage.setItem('token_rtm', data.token_rtm)
+        window.open('/room/', '_self')
+    }
+
+    let change_view_to_create = () => {
+        document.getElementById('create_form').style.display = "block";
+        document.getElementById('join_form').style.display = "none";
+    }
+
+    let change_view_to_join = () => {
+        document.getElementById('create_form').style.display = "none";
+        document.getElementById('join_form').style.display = "block";
+    }
+
+    let get_host_details = async () => {
+        let response = await fetch('/get_host/', {
+            method: 'Post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 'code': sessionStorage.getItem('code') })
+        })
+        let data = await response.json();
+
+        let UID = data.uid
+        let host = data.host
+        sessionStorage.setItem('host', host)
+        sessionStorage.setItem('is_host', false)
+        sessionStorage.setItem('uid_host', UID)
+        start_meeting()
+    }
+
+    let show_credentials = async () => {
+        let option = document.querySelector('input[name="selector"]:checked').value;
+        sessionStorage.setItem('duration', option)
+        let ans = parseInt(option);
+        document.getElementById('timing_form').style.display = "none"
+        document.getElementById('form_two_create').style.display = "block"
+        let inviteCode = Math.random().toString(36).slice(2);
+        sessionStorage.setItem('code', inviteCode);
+        document.getElementById('joining_code').value = inviteCode;
+    }
+
+    let join_meeting = async () => {
+        sessionStorage.setItem("host", false)
+        let password = document.getElementById('password').value;
+        let join_name = document.getElementById('join_name').value;
+        sessionStorage.setItem('name', join_name)
+        sessionStorage.setItem('code', password)
+        get_host_details()
+    }
+
+    let alert_user = () => {
+        let new_alert = `<div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Alert!</strong>&nbsp;&nbsp; Meeting ended.
+        </div>`
+
+        document.getElementById('alerts').insertAdjacentHTML('beforeend', new_alert)
+    }
+
+    window.addEventListener('load', alert_user)
+
+    document.getElementById('show_host').addEventListener('click', handleSubmit)
+    document.getElementById('start').addEventListener('click', start_meeting)
+    document.getElementById('to_join').addEventListener('click', change_view_to_join)
+    document.getElementById('to_create').addEventListener('click', change_view_to_create)
+    document.getElementById('join').addEventListener('click', join_meeting)
+    document.getElementById('show_credentials').addEventListener('click', show_credentials)
+
+</script>
+
+{% endblock content %}

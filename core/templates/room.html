@@ -1,0 +1,107 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<main style="background-color:black ;">
+    <div id="alerts">
+    </div>
+    <div id="room_main">
+        <section id="poll" style="margin-left:10%">
+            <div id="timing_form">
+                <div class="container">
+
+                    <h2>Extend Meeting ? </h2>
+
+                    <ul>
+                        <li>
+                            <input value="yes" type="radio" id="f-option" name="selector_1" checked>
+                            <label for="f-option">Yes</label>
+
+                            <div class="check"></div>
+                        </li>
+
+                        <li>
+                            <input value="no" type="radio" id="s-option" name="selector_1">
+                            <label for="s-option">No</label>
+
+                            <div class="check">
+                                <div class="inside"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="options_submit">
+                    <button class="button-28" id="send_poll_result">Send</button>
+                </div>
+            </div>
+        </section>
+        <div id="main_div">
+            <div id="more_controls">
+                <div id="room_ans" class="room-name">
+                </div>
+                <section id="members__container">
+                    <div id="members__header">
+                        <p>Participants</p>
+                        <strong id="members__count">0</strong>
+                    </div>
+
+                    <div id="member__list">
+                    </div>
+                    <div style="margin-left:20% ; margin-top: 10;">
+                        <button id="start_transcript" class="button-84">start</button>
+                        <button id="stop_transcript" class="button-84">stop</button>
+                    </div>
+                    <div id="extend_div">
+                        <button id="extend_meeting" class="button-84">Extend Meeting</button>
+                    </div>
+                </section>
+            </div>
+            <div id="video_control">
+                <div id="stream__box"></div>
+
+                <section id="video-streams"></section>
+                <section id="controls-wrapper">
+                    <div id="more_button" class="icon-wrapper">
+                        <img class="control-icon" id="more-btn" src="{% static 'images/more.svg' %}" />
+                    </div>
+                    <div class="icon-wrapper">
+                        <img class="control-icon" id="mic-btn" src="{% static 'images/microphone.svg' %}" />
+                    </div>
+
+                    <div class="icon-wrapper">
+                        <img class="control-icon" id="camera-btn" src="{% static 'images/video.svg' %}" />
+                    </div>
+
+                    <div class="icon-wrapper">
+                        <img class="control-icon" id="leave-btn" src="{% static 'images/leave.svg' %}" />
+                    </div>
+                    <div class="icon-wrapper">
+                        <img class="control-icon" id="screen-btn" src="{% static 'images/screen.svg' %}" />
+                    </div>
+                </section>
+            </div>
+            <section id="messages__container">
+                <div id="switch">
+                    <button id="switch_button" class="button-84">Chat</button>
+                </div>
+                <div id="messages"></div>
+
+                <div id="important_messages"></div>
+
+                <form id="message__form">
+                    <input type="text" name="message" placeholder="Send a message...." />
+                </form>
+
+            </section>
+        </div>
+    </div>
+</main>
+
+
+<script type="text/javascript" src="{% static 'js/AgoraRTC_N-4.13.0.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/agora-rtm-sdk-1.5.0.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/room.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/streams.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/transcription.js' %}"></script>
+
+{% endblock content %}
