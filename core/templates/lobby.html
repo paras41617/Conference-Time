@@ -188,12 +188,14 @@
     }
 
     let alert_user = () => {
-        let new_alert = `<div class="alert">
+        if (sessionStorage.getItem('code') != null) {
+            let new_alert = `<div class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             <strong>Alert!</strong>&nbsp;&nbsp; Meeting ended.
         </div>`
 
-        document.getElementById('alerts').insertAdjacentHTML('beforeend', new_alert)
+            document.getElementById('alerts').insertAdjacentHTML('beforeend', new_alert)
+        }
     }
 
     window.addEventListener('load', alert_user)

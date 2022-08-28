@@ -323,7 +323,7 @@ let check_votes = () => {
         show_extended();
         clearTimeout(id_timeout)
         let duration = sessionStorage.getItem('duration')
-        let ans = parseInt(duration) + 120
+        let ans = parseInt(duration) + 300
         sessionStorage.setItem('duration', ans)
         id_timeout = setTimeout(wrap_up, 180000);
     }
@@ -428,7 +428,7 @@ let addBotMessageToDom = (botMessage) => {
 
     let newMessage = `<div class="message__wrapper">
                         <div class="message__body__bot">
-                            <strong class="message__author__bot">🤖 Mumble Bot</strong>
+                            <strong class="message__author__bot">🤖 Conference Time Bot</strong>
                             <p class="message__text__bot">${botMessage}</p>
                         </div>
                     </div>`
@@ -486,6 +486,8 @@ let switchToCamera = async () => {
     document.getElementById('camera-btn').style.backgroundColor = 'rgb(255, 80, 80, 1)'
     localTracks[1].play(`user-${UID}`)
     await client.publish([localTracks[1]])
+    document.getElementById('video-streams').style.display = 'flex';
+    document.getElementById('stream__box').style.display = 'none';
 }
 
 let toggleScreen = async (e) => {

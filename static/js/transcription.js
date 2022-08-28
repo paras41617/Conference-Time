@@ -8,9 +8,6 @@ let start_transcription = () => {
     document.getElementById('start_transcript').style.display = "none";
     document.getElementById('stop_transcript').style.display = "flex";
     remote_actions('show_important_alert')
-    if (transContent.length) {
-        transContent += ' ';
-    }
     recognition.start();
 }
 
