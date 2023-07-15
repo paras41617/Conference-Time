@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.lobby),
     path('create_room/', views.createRoom),
+    path('room/create_whiteboard/', views.createWhiteboard),
     path('room/', views.room),
     path('get_token/', views.getToken),
     path('get_host/', views.getHost),

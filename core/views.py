@@ -11,7 +11,8 @@ from .models import RoomMember, Room
 import json
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
-
+import json
+import requests
 
 # Create your views here.
 
@@ -27,7 +28,6 @@ def room(request):
 @csrf_exempt
 def createRoom(request):
     data = json.loads(request.body)
-    print("room_data: ", data)
     room, created = Room.objects.get_or_create(
         name=data["name"],
         code=data["code"],
@@ -74,7 +74,6 @@ def getHost(request):
 @csrf_exempt
 def createMember(request):
     data = json.loads(request.body)
-    print(data)
     member, created = RoomMember.objects.get_or_create(
         name=data["name"],
         uid=data["UID"],
@@ -115,3 +114,34 @@ def deleteRoom(request):
     )
     member.delete()
     return JsonResponse("Room deleted", safe=False)
+
+@csrf_exempt
+def createWhiteboard(request):
+    url = "https://api.netless.link/v5/rooms"
+    headers = {
+        "token": "NETLESSSDK_YWs9amZFbjZTX3hnQVZJRThZdyZub25jZT0yN2MzOGYwMC0yMmZhLTExZWUtYTEzOS02OTk3ZjkwNzdkYTImcm9sZT0wJnNpZz03OTcwOTBlMmYwMDhiMDQxNzNjNDY0NjhjYzBjNDI1ZDA3NjVjYTBiYmVkMDY1NmEwNjI0ODZlNmIxNTYwYjIw",
+        "Content-Type": "application/json",
+        "region": "us-sv"
+    }
+    data = {
+        "isRecord": False
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+    response_json = response.json()
+    uuid = response_json["uuid"]
+    url = f'https://api.netless.link/v5/tokens/rooms/{uuid}'
+    headers = {
+        "token": "NETLESSSDK_YWs9amZFbjZTX3hnQVZJRThZdyZub25jZT0yN2MzOGYwMC0yMmZhLTExZWUtYTEzOS02OTk3ZjkwNzdkYTImcm9sZT0wJnNpZz03OTcwOTBlMmYwMDhiMDQxNzNjNDY0NjhjYzBjNDI1ZDA3NjVjYTBiYmVkMDY1NmEwNjI0ODZlNmIxNTYwYjIw",
+        "Content-Type": "application/json",
+        "region": "us-sv"
+    }
+    data = {
+        "lifespan": 3600000,
+        "role": "admin"
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+    response_json = response.json()
+    room_token = response_json
+    return JsonResponse({"uid":uuid, "token":room_token },safe=False)

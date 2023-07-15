@@ -69,9 +69,7 @@ let joinAndDisplayLocalStream = async () => {
         channel.on('ChannelMessage', handleChannelMessage)
         getMembers()
         addBotMessageToDom(`Welcome to the room ${sessionStorage.getItem('name')}! 👋`)
-        console.log("coming : ")
         UID = await client.join(APP_ID, CHANNEL, TOKEN, UID)
-        console.log("UID : ", UID)
     } catch (error) {
         console.error(error)
         window.open('/', '_self')
