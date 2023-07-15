@@ -78,6 +78,7 @@
                     <div class="icon-wrapper">
                         <img class="control-icon" id="screen-btn" src="{% static 'images/screen.svg' %}" />
                     </div>
+                    <h2 style="padding-top: 0.5%;">Whiteboard Below</h2>
                 </section>
             </div>
             <section id="messages__container">
@@ -94,14 +95,17 @@
 
             </section>
         </div>
+        <div id="whiteboard" style="width: 95%; height: 50vh; margin-left: 2%; border: white 3px solid;" ></div>
     </div>
 </main>
 
 
 <script type="text/javascript" src="{% static 'js/AgoraRTC_N-4.13.0.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/agora-rtm-sdk-1.5.0.js' %}"></script>
+<script src="https://sdk.netless.link/white-web-sdk/2.15.16.js"></script>
 <script type="text/javascript" src="{% static 'js/room.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/streams.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/transcription.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/whiteboard.js' %}"></script>
 
 {% endblock content %}
