@@ -27,6 +27,7 @@ def room(request):
 @csrf_exempt
 def createRoom(request):
     data = json.loads(request.body)
+    print("room_data: ", data)
     room, created = Room.objects.get_or_create(
         name=data["name"],
         code=data["code"],
@@ -65,7 +66,7 @@ def getHost(request):
     host = room.host
     # start = room.start.strftime("%B %d , %Y %H:%M:%S")
     # expire = room.expire.strftime("%B %d , %Y %H:%M:%S")
-    user = RoomMember.objects.get(name=host)
+    user = RoomMember.objects.get(uid=host)
     uid = user.uid
     return JsonResponse({"host": host, "uid": uid}, safe=False)
 

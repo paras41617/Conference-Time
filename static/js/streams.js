@@ -69,8 +69,9 @@ let joinAndDisplayLocalStream = async () => {
         channel.on('ChannelMessage', handleChannelMessage)
         getMembers()
         addBotMessageToDom(`Welcome to the room ${sessionStorage.getItem('name')}! 👋`)
-
+        console.log("coming : ")
         UID = await client.join(APP_ID, CHANNEL, TOKEN, UID)
+        console.log("UID : ", UID)
     } catch (error) {
         console.error(error)
         window.open('/', '_self')
@@ -376,7 +377,8 @@ let handleChannelMessage = async (messageData, MemberId) => {
 
     if (data.type == 'transcription') {
         addImportantToDom(data.displayName, data.message)
-    }}
+    }
+}
 
 let sendMessage = async (e) => {
     e.preventDefault()
@@ -458,7 +460,7 @@ let create_room = async () => {
             'Content-Type': 'application/json',
             // "X-CSRFToken": csrftoken
         },
-        body: JSON.stringify({ 'name': sessionStorage.getItem('room'), 'code': sessionStorage.getItem('code'), 'expire': sessionStorage.getItem('duration'), 'host': sessionStorage.getItem('name') })
+        body: JSON.stringify({ 'name': sessionStorage.getItem('room'), 'code': sessionStorage.getItem('code'), 'expire': sessionStorage.getItem('duration'), 'host': sessionStorage.getItem('UID') })
     })
     let room = await response.json();
     call_reminder()
@@ -527,7 +529,7 @@ let show_important_alert = () => {
             <strong>Alert!</strong>&nbsp;&nbsp; Pay Attention
         </div>`
 
-        document.getElementById('alerts').insertAdjacentHTML('beforeend', new_alert)
+    document.getElementById('alerts').insertAdjacentHTML('beforeend', new_alert)
 }
 
 let switch_chat_important = () => {
