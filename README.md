@@ -13,6 +13,7 @@ Conference Time is a platform that helps you create time efficient meetings and 
 - Short Meetings
 - Regular Reminders
 - Transcription
+- Personal WhiteBoard
 
 
 
@@ -52,15 +53,22 @@ Moreover a speech Recognition is started which trasncripts the user voice to tex
 After completetion the transcrbed text is made available on the important section for all users.
 
 This feature helps preventing extension of meeting because of the users that do not pay attention to meeting.
+
+User also have a new feature of personal whiteboard. They can use whiteboard to write out important things.
+
 ## Deployment
 
 To run this project locally
 
 
 Navigate to conference time main folder
-
+Add Your Agora Keys in the frontend as well as in .env file
 
 Run the following commands.
+
+```bash
+  python install requirements.txt
+```
 ```bash
   python manage.py makemigrations
 ```
