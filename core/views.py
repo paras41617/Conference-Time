@@ -13,6 +13,9 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
 import json
 import requests
+import os
+import dotenv
+dotenv.load_dotenv()
 
 # Create your views here.
 
@@ -39,8 +42,8 @@ def createRoom(request):
 
 
 def getToken(request):
-    appId = "1fbdb360d32d45c3aabfa196b4293d8d"
-    appCertificate = "a1e49f0130714a8d92a64c54ae4a4859"
+    appId = os.getenv('AGORA_APP_ID')
+    appCertificate = os.getenv('AGORA_APP_CERTIFICATE')
     channelName = request.GET.get("channel")
     uid = str(random.randint(1, 230))
     expirationTimeInSeconds = 3600
@@ -119,7 +122,7 @@ def deleteRoom(request):
 def createWhiteboard(request):
     url = "https://api.netless.link/v5/rooms"
     headers = {
-        "token": "NETLESSSDK_YWs9amZFbjZTX3hnQVZJRThZdyZub25jZT0yN2MzOGYwMC0yMmZhLTExZWUtYTEzOS02OTk3ZjkwNzdkYTImcm9sZT0wJnNpZz03OTcwOTBlMmYwMDhiMDQxNzNjNDY0NjhjYzBjNDI1ZDA3NjVjYTBiYmVkMDY1NmEwNjI0ODZlNmIxNTYwYjIw",
+        "token": os.getenv('AGORA_WHITEBOARD_TOKEN'),
         "Content-Type": "application/json",
         "region": "us-sv"
     }
@@ -132,7 +135,7 @@ def createWhiteboard(request):
     uuid = response_json["uuid"]
     url = f'https://api.netless.link/v5/tokens/rooms/{uuid}'
     headers = {
-        "token": "NETLESSSDK_YWs9amZFbjZTX3hnQVZJRThZdyZub25jZT0yN2MzOGYwMC0yMmZhLTExZWUtYTEzOS02OTk3ZjkwNzdkYTImcm9sZT0wJnNpZz03OTcwOTBlMmYwMDhiMDQxNzNjNDY0NjhjYzBjNDI1ZDA3NjVjYTBiYmVkMDY1NmEwNjI0ODZlNmIxNTYwYjIw",
+        "token": os.getenv('AGORA_WHITEBOARD_TOKEN'),
         "Content-Type": "application/json",
         "region": "us-sv"
     }
